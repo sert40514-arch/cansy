@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sana Bir Sürprizim Var ❤️</title>
+    <!-- Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --bg-warm: #1a0505;
+            --gold: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.2);
+            --romantic-red: #ff3366;
+            --deep-red: #800020;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            font-family: 'Outfit', sans-serif;
+            color: var(--white);
+        }
+
+        /* Cinematic Background */
+        .main-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, var(--bg-warm) 0%, var(--bg-dark) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        /* Grainy Texture Overlay */
+        .main-container::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            z-index: 5;
+        }
+
+        /* Moving Glows */
+        .glow-sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.4;
+            animation: moveGlow 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes moveGlow {
+            0% { transform: translate(-20%, -20%) scale(1); }
+            100% { transform: translate(20%, 20%) scale(1.2); }
+        }
+
+        /* Canvas for Particles */
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Scene Transitions */
+        .scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1), visibility 2s;
+            z-index: 10;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .scene.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Scene 1: Opening */
+        .opening-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-style: italic;
+            margin-top: 3rem;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        /* Flower Bloom SVG */
+        .flower-container {
+            width: 240px;
+            height: 240px;
+            position: relative;
+            filter: drop-shadow(0 0 20px rgba(255, 51, 102, 0.4));
+        }
+
+        .rose-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .petal {
+            fill: var(--romantic-red);
+            stroke: var(--deep-red);
+            stroke-width: 0.5;
+            opacity: 0;
+            transform-origin: center;
+            transform: scale(0) rotate(0deg);
+        }
+
+        .petal-1 { animation: bloom 3s forwards 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .petal-2 { animation: bloom 3s forwards 0.5s cubic-bezier(0.4, 0, 0.2, 1); transform: rotate(45deg); }
+        .petal-3 { animation: bloom 3s forwards 0.8s cubic-bezier(0.4, 0, 0.2, 1); transform: rotate(90deg); }
+        .petal-4 { animation: bloom 3s forwards 1.1s cubic-bezier(0.4, 0, 0.2, 1); transform: rotate(135deg); }
+        .petal-5 { animation: bloom 3.5s forwards 1.4s cubic-bezier(0.4, 0, 0.2, 1); transform: scale(0.8) rotate(180deg); }
+        .petal-inner { fill: var(--deep-red); animation: bloom 4s forwards 1.8s; }
+
+        @keyframes bloom {
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(inherit);
+            }
+        }
+
+        /* Scene 2: Question */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 4rem 2rem;
+            width: 90%;
+            max-width: 380px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            transform: translateY(40px);
+            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .scene.active .card {
+            transform: translateY(0);
+        }
+
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            line-height: 1.4;
+            color: var(--white);
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            height: 180px;
+            justify-content: flex-start;
+        }
+
+        .btn {
+            padding: 1.2rem 2rem;
+            border-radius: 100px;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .btn-evet {
+            background: linear-gradient(135deg, var(--romantic-red), #ff758c);
+            color: white;
+            z-index: 2;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-evet::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -100%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .btn-hayir {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.4);
+            border: 1px solid var(--glass-border);
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 100px;
+            z-index: 1;
+        }
+
+        /* Scene 3: Celebration */
+        .celebration-text-main {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to bottom, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: heartBeat 1.5s infinite ease-in-out;
+            filter: drop-shadow(0 0 20px var(--gold-glow));
+        }
+
+        .celebration-text-sub {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Music UI */
+        #musicToggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        #musicToggle.visible {
+            opacity: 1;
+        }
+
+        #musicToggle:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.1);
+        }
+
+        @keyframes fadeInUp {
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- Ambient Glows -->
+        <div class="glow-sphere" style="width: 400px; height: 400px; background: var(--gold-glow); top: -10%; left: -10%;"></div>
+        <div class="glow-sphere" style="width: 300px; height: 300px; background: rgba(255, 51, 102, 0.1); bottom: -5%; right: -5%; animation-delay: -5s;"></div>
+
+        <canvas id="particleCanvas"></canvas>
+        
+        <!-- Music Toggle -->
+        <div id="musicToggle">
+            <span id="musicIcon" style="font-size: 1.2rem;">🔇</span>
+        </div>
+
+        <!-- Scene 1: Opening -->
+        <section id="scene1" class="scene active">
+            <div class="flower-container">
+                <svg viewBox="0 0 100 100" class="rose-svg">
+                    <!-- Elegant Rose SVG Construction -->
+                    <g transform="translate(50, 50)">
+                        <path class="petal petal-1" d="M0,0 C20,-40 40,-40 40,-10 C40,20 20,40 0,40 C-20,40 -40,20 -40,-10 C-40,-40 -20,-40 0,0" />
+                        <path class="petal petal-2" d="M0,0 C30,-30 50,-10 30,20 C10,50 -10,50 -30,20 C-50,-10 -30,-30 0,0" />
+                        <path class="petal petal-3" d="M0,0 C40,-10 40,20 10,40 C-20,60 -50,30 -40,0 C-30,-30 -10,-40 0,0" />
+                        <path class="petal petal-4" d="M0,0 C10,-40 40,-30 50,0 C60,30 30,50 0,40 C-30,50 -60,30 -50,0 C-40,-30 -10,-40 0,0" />
+                        <path class="petal petal-5" d="M0,0 C20,-20 30,-10 20,10 C10,30 -10,30 -20,10 C-30,-10 -20,-20 0,0" />
+                        <circle class="petal-inner" cx="0" cy="0" r="8" />
+                    </g>
+                </svg>
+            </div>
+            <h1 class="opening-text">Sana küçük bir sürprizim var ❤️</h1>
+        </section>
+
+        <!-- Scene 2: Question -->
+        <section id="scene2" class="scene">
+            <div class="card">
+                <h2 class="question-text">Beni seviyor musun? 😏❤️</h2>
+                <div class="button-group">
+                    <button id="btnEvet" class="btn btn-evet">
+                        <span>❤️</span> EVET
+                    </button>
+                    <button id="btnHayir" class="btn btn-hayir">
+                        <span>❌</span> HAYIR
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scene 3: Celebration -->
+        <section id="scene3" class="scene">
+            <h1 class="celebration-text-main">Biliyordum 😍❤️</h1>
+            <div style="transform: translateY(20px); opacity: 0; animation: fadeInUp 1s forwards 0.5s;">
+                <p class="celebration-text-sub" style="font-size: 1.8rem; margin-bottom: 15px; font-weight: 500;">Seni çok seviyorum</p>
+                <p class="celebration-text-sub" style="font-style: italic; color: var(--gold);">İyi ki varsın...</p>
+            </div>
+        </section>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808f30302.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // --- Enhanced Particles ---
+        const config = {
+            petalCount: 40,
+            heartCount: 60,
+            sparkleCount: 40,
+            colors: ['#ff3366', '#ff758c', '#d4af37', '#ffffff', '#800020']
+        };
+
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+        let activeType = 'petal';
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(type) {
+                this.type = type;
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -50 - Math.random() * 200;
+                this.size = Math.random() * 12 + 6;
+                this.speedY = Math.random() * 1.2 + 0.8;
+                this.speedX = (Math.random() - 0.5) * 1.5;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 1.5;
+                this.opacity = Math.random() * 0.4 + 0.6;
+                this.color = config.colors[Math.floor(Math.random() * config.colors.length)];
+                this.wobble = Math.random() * 0.05;
+                this.wobbleSpeed = Math.random() * 0.02;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX + Math.sin(this.y * this.wobbleSpeed) * 1.5;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y > canvas.height + 50) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.globalAlpha = this.opacity;
+
+                if (this.type === 'petal') {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.bezierCurveTo(this.size, -this.size, this.size * 1.5, this.size, 0, this.size * 1.2);
+                    ctx.bezierCurveTo(-this.size * 1.5, this.size, -this.size, -this.size, 0, 0);
+                    ctx.fill();
+                } else if (this.type === 'heart') {
+                    ctx.fillStyle = this.color;
+                    const s = this.size * 0.8;
+                    ctx.beginPath();
+                    ctx.moveTo(0, s * 0.3);
+                    ctx.bezierCurveTo(0, 0, -s, 0, -s, s * 0.4);
+                    ctx.bezierCurveTo(-s, s, 0, s * 1.3, 0, s * 1.5);
+                    ctx.bezierCurveTo(0, s * 1.3, s, s, s, s * 0.4);
+                    ctx.bezierCurveTo(s, 0, 0, 0, 0, s * 0.3);
+                    ctx.fill();
+                } else {
+                    ctx.fillStyle = '#fff';
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = '#fff';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        function initParticles(type, count) {
+            particles = [];
+            activeType = type;
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(type));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // --- Core Logic ---
+        const btnEvet = document.getElementById('btnEvet');
+        const btnHayir = document.getElementById('btnHayir');
+        const music = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicIcon = document.getElementById('musicIcon');
+
+        // Transition Timing
+        setTimeout(() => {
+            document.getElementById('scene1').style.opacity = '0';
+            setTimeout(() => {
+                showScene(2);
+                musicToggle.classList.add('visible');
+            }, 2000);
+        }, 5000);
+
+        function showScene(n) {
+            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(`scene${n}`);
+            target.classList.add('active');
+            
+            if (n === 2) {
+                initParticles('petal', config.petalCount);
+            } else if (n === 3) {
+                initParticles('heart', config.heartCount);
+                for(let i=0; i<30; i++) particles.push(new Particle('sparkle'));
+            }
+        }
+
+        // Playful Dodge Logic
+        function dodge() {
+            const rect = btnHayir.getBoundingClientRect();
+            const cardRect = document.querySelector('.card').getBoundingClientRect();
+            
+            const padding = 40;
+            const maxX = cardRect.width - rect.width - (padding * 2);
+            const maxY = cardRect.height - rect.height - (padding * 2);
+            
+            const newX = (Math.random() * maxX) - (maxX / 2);
+            const newY = (Math.random() * maxY) - 100;
+
+            btnHayir.style.transform = `translate(${newX}px, ${newY}px)`;
+            
+            if (navigator.vibrate) navigator.vibrate(40);
+        }
+
+        btnHayir.addEventListener('mouseover', dodge);
+        btnHayir.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            dodge();
+        });
+
+        btnEvet.addEventListener('click', () => {
+            showScene(3);
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            if (music.paused) toggleMusic();
+        });
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play().catch(console.error);
+                musicIcon.textContent = '🎵';
+            } else {
+                music.pause();
+                musicIcon.textContent = '🔇';
+            }
+        }
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Start
+        initParticles('petal', config.petalCount);
+        animate();
+    </script>
+</body>
+</html>
