@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sana Bir Sürprizim Var ❤️</title>
+    <meta name="theme-color" content="#030303">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
@@ -143,12 +145,14 @@
         </section>
 
         <section id="scene3" class="scene">
-            <h1 class="title" style="font-size: 2.5rem; margin-bottom: 20px; line-height: 1.2;">TABİ SEVECEN BENİM GİBİ ADAMI NERDEN BULACAN G*T</h1>
+            <h1 class="title" style="font-size: clamp(1.2rem, 5vw, 2.2rem); margin-bottom: 20px; line-height: 1.4; padding: 0 15px;">TABİ SEVECEN BENİM GİBİ ADAMI NERDEN BULACAN G*T</h1>
         </section>
     </div>
 
     <div id="music-btn">🔇</div>
-    <audio id="bg-music" loop><source src="cansu.mp3" type="audio/mpeg"></audio>
+    <audio id="bg-music" loop preload="auto">
+        <source src="cansu.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         // --- LUXURY 3D ENGINE (PARTICLE HEART) ---
@@ -272,10 +276,19 @@
         const btnNo = document.getElementById('btn-no');
         const card = document.querySelector('.card');
         function dodge() {
-            const x = (Math.random() - 0.5) * 300;
-            const y = (Math.random() - 0.5) * 400 - 100;
+            const cardRect = card.getBoundingClientRect();
+            const btnRect = btnNo.getBoundingClientRect();
+            
+            // Limit movement within the card for better mobile experience
+            const padding = 20;
+            const maxX = (cardRect.width / 2) - (btnRect.width / 2) - padding;
+            const maxY = (cardRect.height / 2) - (btnRect.height / 2) - padding;
+            
+            const x = (Math.random() - 0.5) * maxX * 2;
+            const y = (Math.random() - 0.5) * maxY * 2 - 50;
+            
             btnNo.style.transform = `translate(${x}px, ${y}px)`;
-            if(navigator.vibrate) navigator.vibrate(40);
+            if(navigator.vibrate) navigator.vibrate(30);
         }
         btnNo.addEventListener('mouseover', dodge);
         btnNo.addEventListener('touchstart', (e) => { e.preventDefault(); dodge(); });
